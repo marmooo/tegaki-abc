@@ -1,32 +1,31 @@
-let endAudio, errorAudio, incorrectAudio, correctAudio;
+let endAudio, errorAudio, correctAudio;
 loadAudios();
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let firstRun = true;
-let canvasCache = document.createElement('canvas').getContext('2d');
+const canvasCache = document.createElement("canvas").getContext("2d");
 canvasCache.fillStyle = "white";
-canvasCache.filter = 'invert(1)';
-let model;
-let answer = 'Tegaki ABC';
+canvasCache.filter = "invert(1)";
+let answer = "Tegaki ABC";
 let correctCount = 0;
 let catCounter = 0;
 let englishVoices = [];
-
-function loadConfig() {
-  if (localStorage.getItem('darkMode') == 1) {
-    document.documentElement.dataset.theme = 'dark';
-  }
-}
 loadConfig();
 
+function loadConfig() {
+  if (localStorage.getItem("darkMode") == 1) {
+    document.documentElement.dataset.theme = "dark";
+  }
+}
+
 function toggleDarkMode() {
-  if (localStorage.getItem('darkMode') == 1) {
-    localStorage.setItem('darkMode', 0);
+  if (localStorage.getItem("darkMode") == 1) {
+    localStorage.setItem("darkMode", 0);
     delete document.documentElement.dataset.theme;
   } else {
-    localStorage.setItem('darkMode', 1);
-    document.documentElement.dataset.theme = 'dark';
+    localStorage.setItem("darkMode", 1);
+    document.documentElement.dataset.theme = "dark";
   }
 }
 
@@ -51,8 +50,8 @@ function unlockAudio() {
 
 function loadAudio(url) {
   return fetch(url)
-    .then(response => response.arrayBuffer())
-    .then(arrayBuffer => {
+    .then((response) => response.arrayBuffer())
+    .then((arrayBuffer) => {
       return new Promise((resolve, reject) => {
         audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
           resolve(audioBuffer);
@@ -65,12 +64,12 @@ function loadAudio(url) {
 
 function loadAudios() {
   promises = [
-    loadAudio('mp3/end.mp3'),
-    loadAudio('mp3/cat.mp3'),
-    loadAudio('mp3/incorrect1.mp3'),
-    loadAudio('mp3/correct3.mp3'),
+    loadAudio("mp3/end.mp3"),
+    loadAudio("mp3/cat.mp3"),
+    loadAudio("mp3/incorrect1.mp3"),
+    loadAudio("mp3/correct3.mp3"),
   ];
-  Promise.all(promises).then(audioBuffers => {
+  Promise.all(promises).then((audioBuffers) => {
     endAudio = audioBuffers[0];
     errorAudio = audioBuffers[1];
     incorrectAudio = audioBuffers[2];
@@ -80,19 +79,19 @@ function loadAudios() {
 
 function loadVoices() {
   // https://stackoverflow.com/questions/21513706/
-  const allVoicesObtained = new Promise(function(resolve, reject) {
+  const allVoicesObtained = new Promise(function (resolve) {
     let voices = speechSynthesis.getVoices();
     if (voices.length !== 0) {
       resolve(voices);
     } else {
-      speechSynthesis.addEventListener("voiceschanged", function() {
+      speechSynthesis.addEventListener("voiceschanged", function () {
         voices = speechSynthesis.getVoices();
         resolve(voices);
       });
     }
   });
-  allVoicesObtained.then(voices => {
-    englishVoices = voices.filter(voice => voice.lang == 'en-US');
+  allVoicesObtained.then((voices) => {
+    englishVoices = voices.filter((voice) => voice.lang == "en-US");
   });
 }
 loadVoices();
@@ -101,7 +100,7 @@ function speak(text) {
   speechSynthesis.cancel();
   const msg = new SpeechSynthesisUtterance(text);
   msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
-  msg.lang = 'en-US';
+  msg.lang = "en-US";
   speechSynthesis.speak(msg);
   return msg;
 }
@@ -113,20 +112,16 @@ function getRandomInt(min, max) {
 }
 
 function hideAnswer() {
-  document.getElementById('reply').textContent = '';
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  document.getElementById("reply").textContent = "";
 }
 
 function showAnswer() {
   speak(answer.toLowerCase());
   if (!firstRun) {
-    const canvas = document.getElementById('tehon');
-    const ctx = canvas.getContext('2d');
-    ctx.font = 'bold 280px serif';
-    ctx.fillStyle = 'lightgray';
+    const canvas = document.getElementById("tehon");
+    const ctx = canvas.getContext("2d");
+    ctx.font = "bold 280px serif";
+    ctx.fillStyle = "lightgray";
     const m = ctx.measureText(answer);
     const x = (canvas.width - m.width) / 2;
     const fy = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
@@ -143,13 +138,13 @@ function respeak() {
 function nextProblem() {
   hideAnswer();
   answer = alphabet[getRandomInt(0, alphabet.length)];
-  if (document.getElementById('grade').selectedIndex == 1) {
+  if (document.getElementById("grade").selectedIndex == 1) {
     answer = answer.toLowerCase();
   }
   // document.getElementById('answer').textContent = answer;
   tegakiPad.clear();
-  const tehon = document.getElementById('tehon');
-  tehon.getContext('2d').clearRect(0, 0, tehon.width, tehon.height);
+  const tehon = document.getElementById("tehon");
+  tehon.getContext("2d").clearRect(0, 0, tehon.width, tehon.height);
   speak(answer.toLowerCase());
 }
 
@@ -157,27 +152,15 @@ function initSignaturePad(canvas) {
   const pad = new SignaturePad(canvas, {
     minWidth: 8,
     maxWidth: 8,
-    penColor: 'black',
+    penColor: "black",
     // backgroundColor: 'white',
     throttle: 0,
     minDistance: 0,
   });
-  pad.onEnd = function() {
+  pad.onEnd = function () {
     predict(this.canvas);
-  }
+  };
   return pad;
-}
-
-function getAccuracyScores(imageData) {
-  const score = tf.tidy(() => {
-    const channels = 1;
-    let input = tf.browser.fromPixels(imageData, channels);
-    input = tf.cast(input, 'float32').div(tf.scalar(255));
-    // input = input.flatten();  // mlp
-    input = input.expandDims();
-    return model.predict(input).dataSync();
-  });
-  return score;
 }
 
 function getImageData(drawElement) {
@@ -191,7 +174,7 @@ function getImageData(drawElement) {
 
 function predict(canvas) {
   const imageData = getImageData(canvas);
-  worker.postMessage({ imageData:imageData });
+  worker.postMessage({ imageData: imageData });
 }
 
 function catNyan() {
@@ -209,34 +192,34 @@ function loadImage(src) {
 
 function loadCatImage(url) {
   const imgSize = 128;
-  return new Promise((resolve, reject) => {
-    loadImage(url).then(originalImg => {
-      const canvas = document.createElement('canvas');
+  return new Promise((resolve) => {
+    loadImage(url).then((originalImg) => {
+      const canvas = document.createElement("canvas");
       canvas.width = imgSize;
       canvas.height = imgSize;
-      canvas.style.position = 'absolute';
+      canvas.style.position = "absolute";
       // drawImage() faster than putImageData()
-      canvas.getContext('2d').drawImage(originalImg, 0, 0);
+      canvas.getContext("2d").drawImage(originalImg, 0, 0);
       resolve(canvas);
-    }).catch(e => {
+    }).catch((e) => {
       console.log(e);
     });
   });
 }
-loadCatImage('kohacu.webp').then(catCanvas => {
-  catsWalk(100, catCanvas);
+loadCatImage("kohacu.webp").then((catCanvas) => {
+  catsWalk(catCanvas);
 });
 
 function catWalk(freq, catCanvas) {
-  const area = document.getElementById('catsWalk');
+  const area = document.getElementById("catsWalk");
   const width = area.offsetWidth;
   const height = area.offsetHeight;
   const canvas = catCanvas.cloneNode(true);
-  canvas.getContext('2d').drawImage(catCanvas, 0, 0);
+  canvas.getContext("2d").drawImage(catCanvas, 0, 0);
   const size = 128;
-  canvas.style.top = getRandomInt(0, height - size) + 'px';
-  canvas.style.left = width - size + 'px';
-  canvas.addEventListener('click', function() {
+  canvas.style.top = getRandomInt(0, height - size) + "px";
+  canvas.style.left = width - size + "px";
+  canvas.addEventListener("click", function () {
     speak(alphabet[catCounter].toLowerCase());
     if (catCounter >= alphabet.length - 1) {
       catCounter = 0;
@@ -244,12 +227,12 @@ function catWalk(freq, catCanvas) {
       catCounter += 1;
     }
     this.remove();
-  }, { once:true });
+  }, { once: true });
   area.appendChild(canvas);
-  const timer = setInterval(function() {
+  const timer = setInterval(function () {
     const x = parseInt(canvas.style.left) - 1;
     if (x > -size) {
-      canvas.style.left = x + 'px';
+      canvas.style.left = x + "px";
     } else {
       clearInterval(timer);
       canvas.remove();
@@ -257,8 +240,8 @@ function catWalk(freq, catCanvas) {
   }, freq);
 }
 
-function catsWalk(freq, catCanvas) {
-  const timer = setInterval(function() {
+function catsWalk(catCanvas) {
+  setInterval(function () {
     if (Math.random() > 0.995) {
       catWalk(getRandomInt(5, 20), catCanvas);
     }
@@ -268,13 +251,13 @@ function catsWalk(freq, catCanvas) {
 let gameTimer;
 function startGameTimer() {
   clearInterval(gameTimer);
-  const timeNode = document.getElementById('time');
-  timeNode.innerText = '180秒 / 180秒';
-  gameTimer = setInterval(function() {
-    const arr = timeNode.innerText.split('秒 /');
+  const timeNode = document.getElementById("time");
+  timeNode.innerText = "180秒 / 180秒";
+  gameTimer = setInterval(function () {
+    const arr = timeNode.innerText.split("秒 /");
     const t = parseInt(arr[0]);
     if (t > 0) {
-      timeNode.innerText = (t-1) + '秒 /' + arr[1];
+      timeNode.innerText = (t - 1) + "秒 /" + arr[1];
     } else {
       clearInterval(gameTimer);
       playAudio(endAudio);
@@ -287,13 +270,13 @@ let countdownTimer;
 function countdown() {
   firstRun = false;
   clearTimeout(countdownTimer);
-  gameStart.classList.remove('d-none');
-  playPanel.classList.add('d-none');
-  scorePanel.classList.add('d-none');
-  const counter = document.getElementById('counter');
+  gameStart.classList.remove("d-none");
+  playPanel.classList.add("d-none");
+  scorePanel.classList.add("d-none");
+  const counter = document.getElementById("counter");
   counter.innerText = 3;
-  countdownTimer = setInterval(function(){
-    const colors = ['skyblue', 'greenyellow', 'violet', 'tomato'];
+  countdownTimer = setInterval(function () {
+    const colors = ["skyblue", "greenyellow", "violet", "tomato"];
     if (parseInt(counter.innerText) > 1) {
       const t = parseInt(counter.innerText) - 1;
       counter.style.backgroundColor = colors[t];
@@ -301,9 +284,9 @@ function countdown() {
     } else {
       firstRun = false;
       clearTimeout(countdownTimer);
-      gameStart.classList.add('d-none');
-      playPanel.classList.remove('d-none');
-      document.getElementById('score').innerText = 0;
+      gameStart.classList.add("d-none");
+      playPanel.classList.remove("d-none");
+      document.getElementById("score").innerText = 0;
       correctCount = 0;
       nextProblem();
       startGameTimer();
@@ -312,25 +295,34 @@ function countdown() {
 }
 
 function scoring() {
-  playPanel.classList.add('d-none');
-  scorePanel.classList.remove('d-none');
-  document.getElementById('score').textContent = correctCount;
+  playPanel.classList.add("d-none");
+  scorePanel.classList.remove("d-none");
+  document.getElementById("score").textContent = correctCount;
 }
 
+const tegakiPad = initSignaturePad(document.getElementById("tegaki"));
+document.getElementById("eraser").onclick = () => {
+  tegakiPad.clear();
+};
 
-const tegakiPad = initSignaturePad(document.getElementById('tegaki'));
-document.getElementById('eraser').onclick = () => { tegakiPad.clear(); };
-document.getElementById('showAnswer').onclick = showAnswer;
-document.getElementById('respeak').onclick = respeak;
-const worker = new Worker('worker.js');
-worker.addEventListener('message', function(e) {
+const worker = new Worker("worker.js");
+worker.addEventListener("message", function (e) {
   const reply = e.data.result[0];
-  document.getElementById('reply').innerText = reply;
+  document.getElementById("reply").innerText = reply;
   if (reply == answer) {
     correctCount += 1;
     playAudio(correctAudio);
     nextProblem();
   }
 });
-document.addEventListener('click', unlockAudio, { once:true, useCapture:true });
 
+document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
+document.getElementById("restartButton").onclick = countdown;
+document.getElementById("startButton").onclick = countdown;
+document.getElementById("showAnswer").onclick = showAnswer;
+document.getElementById("respeak").onclick = respeak;
+document.getElementById("kohacu").onclick = catNyan;
+document.addEventListener("click", unlockAudio, {
+  once: true,
+  useCapture: true,
+});
