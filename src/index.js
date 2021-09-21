@@ -132,7 +132,7 @@ function showAnswer() {
 }
 
 function respeak() {
-  speak(answer);
+  speak(answer.toLowerCase());
 }
 
 function nextProblem() {

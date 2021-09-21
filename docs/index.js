@@ -9,7 +9,7 @@ loadVoices();function speak(text){speechSynthesis.cancel();const msg=new SpeechS
 function getRandomInt(min,max){min=Math.ceil(min);max=Math.floor(max);return Math.floor(Math.random()*(max-min)+min);}
 function hideAnswer(){document.getElementById("reply").textContent="";}
 function showAnswer(){speak(answer.toLowerCase());if(!firstRun){const canvas=document.getElementById("tehon");const ctx=canvas.getContext("2d");ctx.font="bold 280px serif";ctx.fillStyle="lightgray";const m=ctx.measureText(answer);const x=(canvas.width-m.width)/2;const fy=m.actualBoundingBoxAscent+m.actualBoundingBoxDescent;const y=canvas.height-(canvas.height-fy)/2;ctx.fillText(answer,x,y);}}
-function respeak(){speak(answer);}
+function respeak(){speak(answer.toLowerCase());}
 function nextProblem(){hideAnswer();answer=alphabet[getRandomInt(0,alphabet.length)];if(document.getElementById("grade").selectedIndex==1){answer=answer.toLowerCase();}
 tegakiPad.clear();const tehon=document.getElementById("tehon");tehon.getContext("2d").clearRect(0,0,tehon.width,tehon.height);speak(answer.toLowerCase());}
 function initSignaturePad(canvas){const pad=new SignaturePad(canvas,{minWidth:8,maxWidth:8,penColor:"black",throttle:0,minDistance:0,});pad.onEnd=function(){predict(this.canvas);};return pad;}
