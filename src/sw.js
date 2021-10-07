@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-09-21 12:35';
+var CACHE_NAME = '2021-10-08 00:19';
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/kohacu.webp",
@@ -9,7 +9,7 @@ var urlsToCache = [
   "/tegaki-abc/mp3/correct3.mp3",
   "/tegaki-abc/favicon/original.svg",
   "/tegaki-de-anzan/signature_pad.umd.min.js",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css",
+  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css",
   "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js",
 ];
 
