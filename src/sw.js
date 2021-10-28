@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-10-28 08:30';
+var CACHE_NAME = '2021-10-28 12:55';
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/kohacu.webp",
