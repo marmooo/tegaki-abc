@@ -149,7 +149,7 @@ function nextProblem() {
     answer = answer.toLowerCase();
   }
   // document.getElementById('answer').textContent = answer;
-  tegakiPad.clear();
+  pad.clear();
   const tehon = document.getElementById("tehon");
   tehon.getContext("2d").clearRect(0, 0, tehon.width, tehon.height);
   speak(answer.toLowerCase());
@@ -164,9 +164,9 @@ function initSignaturePad(canvas) {
     throttle: 0,
     minDistance: 0,
   });
-  pad.onEnd = function () {
+  pad.addEventListener("endStroke", () => {
     predict(this.canvas);
-  };
+  });
   return pad;
 }
 
@@ -307,9 +307,9 @@ function scoring() {
   document.getElementById("score").textContent = correctCount;
 }
 
-const tegakiPad = initSignaturePad(document.getElementById("tegaki"));
+const pad = initSignaturePad(document.getElementById("tegaki"));
 document.getElementById("eraser").onclick = () => {
-  tegakiPad.clear();
+  pad.clear();
 };
 
 const worker = new Worker("worker.js");
