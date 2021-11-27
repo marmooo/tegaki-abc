@@ -12,7 +12,7 @@ function showAnswer(){speak(answer.toLowerCase());if(!firstRun){const canvas=doc
 function respeak(){speak(answer.toLowerCase());}
 function nextProblem(){hideAnswer();answer=alphabet[getRandomInt(0,alphabet.length)];if(document.getElementById("grade").selectedIndex==1){answer=answer.toLowerCase();}
 pad.clear();const tehon=document.getElementById("tehon");tehon.getContext("2d").clearRect(0,0,tehon.width,tehon.height);speak(answer.toLowerCase());}
-function initSignaturePad(canvas){const pad=new SignaturePad(canvas,{minWidth:8,maxWidth:8,penColor:"black",throttle:0,minDistance:0,});pad.addEventListener("endStroke",()=>{predict(this.canvas);});return pad;}
+function initSignaturePad(canvas){const pad=new SignaturePad(canvas,{minWidth:8,maxWidth:8,penColor:"black",throttle:0,minDistance:0,});pad.addEventListener("endStroke",()=>{predict(pad.canvas);});return pad;}
 function getImageData(drawElement){const inputWidth=inputHeight=28;canvasCache.fillRect(0,0,280,280);canvasCache.drawImage(drawElement,0,0,inputWidth,inputHeight);return canvasCache.getImageData(0,0,inputWidth,inputHeight);}
 function predict(canvas){const imageData=getImageData(canvas);worker.postMessage({imageData:imageData});}
 function catNyan(){playAudio(errorAudio);}
