@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-12-08 11:05';
+var CACHE_NAME = '2021-12-13 22:30';
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/kohacu.webp",
@@ -10,9 +10,9 @@ var urlsToCache = [
   "/tegaki-abc/mp3/cat.mp3",
   "/tegaki-abc/mp3/correct3.mp3",
   "/tegaki-abc/favicon/original.svg",
+  "/tegaki-abc/signature_pad.umd.min.js",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
   "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js",
 ];
 
 self.addEventListener("install", function (event) {
