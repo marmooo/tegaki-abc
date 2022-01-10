@@ -173,7 +173,7 @@ function initSignaturePad(canvas) {
 function getImageData(drawElement) {
   const inputWidth = inputHeight = 28;
   // reset to white (not transparent)
-  canvasCache.fillRect(0, 0, 280, 280);
+  canvasCache.fillRect(0, 0, inputWidth, inputHeight);
   // resize
   canvasCache.drawImage(drawElement, 0, 0, inputWidth, inputHeight);
   return canvasCache.getImageData(0, 0, inputWidth, inputHeight);
