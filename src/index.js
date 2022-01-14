@@ -5,8 +5,6 @@ const audioContext = new AudioContext();
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let firstRun = true;
 const canvasCache = document.createElement("canvas").getContext("2d");
-canvasCache.fillStyle = "white";
-canvasCache.filter = "invert(1)";
 let answer = "Tegaki ABC";
 let correctCount = 0;
 let catCounter = 0;
@@ -160,7 +158,7 @@ function initSignaturePad(canvas) {
     minWidth: 8,
     maxWidth: 8,
     penColor: "black",
-    // backgroundColor: 'white',
+    backgroundColor: 'white',
     throttle: 0,
     minDistance: 0,
   });
@@ -172,11 +170,17 @@ function initSignaturePad(canvas) {
 
 function getImageData(drawElement) {
   const inputWidth = inputHeight = 28;
-  // reset to white (not transparent)
-  canvasCache.fillRect(0, 0, inputWidth, inputHeight);
   // resize
   canvasCache.drawImage(drawElement, 0, 0, inputWidth, inputHeight);
-  return canvasCache.getImageData(0, 0, inputWidth, inputHeight);
+  // invert color
+  const imageData = canvasCache.getImageData(0, 0, inputWidth, inputHeight);
+  const data = imageData.data;
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = 255 - data[i];
+    data[i + 1] = 255 - data[i + 1];
+    data[i + 2] = 255 - data[i + 2];
+  }
+  return imageData;
 }
 
 function predict(canvas) {

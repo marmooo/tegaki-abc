@@ -1,4 +1,4 @@
-let endAudio,errorAudio,correctAudio;loadAudios();const AudioContext=window.AudioContext||window.webkitAudioContext;const audioContext=new AudioContext();const alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ";let firstRun=true;const canvasCache=document.createElement("canvas").getContext("2d");canvasCache.fillStyle="white";canvasCache.filter="invert(1)";let answer="Tegaki ABC";let correctCount=0;let catCounter=0;let englishVoices=[];loadConfig();function loadConfig(){if(localStorage.getItem("darkMode")==1){document.documentElement.dataset.theme="dark";}}
+let endAudio,errorAudio,correctAudio;loadAudios();const AudioContext=window.AudioContext||window.webkitAudioContext;const audioContext=new AudioContext();const alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ";let firstRun=true;const canvasCache=document.createElement("canvas").getContext("2d");let answer="Tegaki ABC";let correctCount=0;let catCounter=0;let englishVoices=[];loadConfig();function loadConfig(){if(localStorage.getItem("darkMode")==1){document.documentElement.dataset.theme="dark";}}
 function toggleDarkMode(){if(localStorage.getItem("darkMode")==1){localStorage.setItem("darkMode",0);delete document.documentElement.dataset.theme;}else{localStorage.setItem("darkMode",1);document.documentElement.dataset.theme="dark";}}
 function playAudio(audioBuffer,volume){const audioSource=audioContext.createBufferSource();audioSource.buffer=audioBuffer;if(volume){const gainNode=audioContext.createGain();gainNode.gain.value=volume;gainNode.connect(audioContext.destination);audioSource.connect(gainNode);audioSource.start();}else{audioSource.connect(audioContext.destination);audioSource.start();}}
 function unlockAudio(){audioContext.resume();}
@@ -12,8 +12,9 @@ function showAnswer(){speak(answer.toLowerCase());if(!firstRun){const canvas=doc
 function respeak(){speak(answer.toLowerCase());}
 function nextProblem(){hideAnswer();answer=alphabet[getRandomInt(0,alphabet.length)];if(document.getElementById("grade").selectedIndex==1){answer=answer.toLowerCase();}
 pad.clear();const tehon=document.getElementById("tehon");tehon.getContext("2d").clearRect(0,0,tehon.width,tehon.height);speak(answer.toLowerCase());}
-function initSignaturePad(canvas){const pad=new SignaturePad(canvas,{minWidth:8,maxWidth:8,penColor:"black",throttle:0,minDistance:0,});pad.addEventListener("endStroke",()=>{predict(pad.canvas);});return pad;}
-function getImageData(drawElement){const inputWidth=inputHeight=28;canvasCache.fillRect(0,0,inputWidth,inputHeight);canvasCache.drawImage(drawElement,0,0,inputWidth,inputHeight);return canvasCache.getImageData(0,0,inputWidth,inputHeight);}
+function initSignaturePad(canvas){const pad=new SignaturePad(canvas,{minWidth:8,maxWidth:8,penColor:"black",backgroundColor:'white',throttle:0,minDistance:0,});pad.addEventListener("endStroke",()=>{predict(pad.canvas);});return pad;}
+function getImageData(drawElement){const inputWidth=inputHeight=28;canvasCache.drawImage(drawElement,0,0,inputWidth,inputHeight);const imageData=canvasCache.getImageData(0,0,inputWidth,inputHeight);const data=imageData.data;for(let i=0;i<data.length;i+=4){data[i]=255-data[i];data[i+1]=255-data[i+1];data[i+2]=255-data[i+2];}
+return imageData;}
 function predict(canvas){const imageData=getImageData(canvas);worker.postMessage({imageData:imageData});}
 function catNyan(){playAudio(errorAudio);}
 function loadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=(e)=>reject(e);img.src=src;});}
