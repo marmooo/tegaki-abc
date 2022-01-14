@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-01-10 11:50';
+var CACHE_NAME = '2022-01-14 09:15';
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/kohacu.webp",
@@ -10,7 +10,6 @@ var urlsToCache = [
   "/tegaki-abc/mp3/cat.mp3",
   "/tegaki-abc/mp3/correct3.mp3",
   "/tegaki-abc/favicon/original.svg",
-  "/tegaki-abc/signature_pad.umd.min.js",
   "https://cdn.jsdelivr.net/npm/signature_pad@4.0.1/dist/signature_pad.umd.min.js",
   "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js",
 ];
