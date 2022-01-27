@@ -157,7 +157,7 @@ function initSignaturePad(canvas) {
     minWidth: 8,
     maxWidth: 8,
     penColor: "black",
-    backgroundColor: 'rgba(255, 255, 255, 0)',
+    backgroundColor: "rgba(255, 255, 255, 0)",
     throttle: 0,
     minDistance: 0,
   });
@@ -339,3 +339,8 @@ document.addEventListener("click", unlockAudio, {
   once: true,
   useCapture: true,
 });
+// prevent troublesome iOS features
+document.ondblclick = (e) => {
+  e.preventDefault();
+};
+document.body.style.webkitUserSelect = "none";
