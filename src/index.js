@@ -133,7 +133,6 @@ function showAnswer() {
     const y = canvas.height - (canvas.height - fy) / 2;
     ctx.fillText(answer, x, y);
   }
-  // document.getElementById('reply').textContent = answer;
 }
 
 function respeak() {
@@ -158,7 +157,7 @@ function initSignaturePad(canvas) {
     minWidth: 8,
     maxWidth: 8,
     penColor: "black",
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0)',
     throttle: 0,
     minDistance: 0,
   });
@@ -170,6 +169,9 @@ function initSignaturePad(canvas) {
 
 function getImageData(drawElement) {
   const inputWidth = inputHeight = 28;
+  // transparent to white
+  canvasCache.fillStyle = "white";
+  canvasCache.fillRect(0, 0, inputWidth, inputHeight);
   // resize
   canvasCache.drawImage(drawElement, 0, 0, inputWidth, inputHeight);
   // invert color
