@@ -125,7 +125,7 @@ function showAnswer() {
   if (!firstRun) {
     const canvas = document.getElementById("tehon");
     const ctx = canvas.getContext("2d");
-    ctx.font = "bold 280px serif";
+    ctx.font = "bold 280px 'Source Code Pro'";
     ctx.fillStyle = "lightgray";
     const m = ctx.measureText(answer);
     const x = (canvas.width - m.width) / 2;
