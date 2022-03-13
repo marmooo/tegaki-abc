@@ -210,6 +210,7 @@ function loadCatImage(url) {
       const canvas = document.createElement("canvas");
       canvas.width = imgSize;
       canvas.height = imgSize;
+      canvas.className = "cat";
       canvas.style.position = "absolute";
       // drawImage() faster than putImageData()
       canvas.getContext("2d").drawImage(originalImg, 0, 0);
