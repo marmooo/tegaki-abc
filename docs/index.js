@@ -8,7 +8,7 @@ function loadVoices(){const allVoicesObtained=new Promise(function(resolve){let 
 loadVoices();function speak(text){speechSynthesis.cancel();const msg=new SpeechSynthesisUtterance(text);msg.voice=englishVoices[Math.floor(Math.random()*englishVoices.length)];msg.lang="en-US";speechSynthesis.speak(msg);return msg;}
 function getRandomInt(min,max){min=Math.ceil(min);max=Math.floor(max);return Math.floor(Math.random()*(max-min)+min);}
 function hideAnswer(){document.getElementById("reply").textContent="";}
-function showAnswer(){speak(answer.toLowerCase());if(!firstRun){const canvas=document.getElementById("tehon");const ctx=canvas.getContext("2d");ctx.font="bold 280px 'Source Code Pro'";ctx.fillStyle="lightgray";const m=ctx.measureText(answer);const x=(canvas.width-m.width)/2;const y=canvas.height/2+m.actualBoundingBoxAscent/2;ctx.fillText(answer,x,y);}}
+function showAnswer(){speak(answer.toLowerCase());if(!firstRun){const canvas=document.getElementById("tehon");const ctx=canvas.getContext("2d");ctx.font="bold 280px 'Source Code Pro'";ctx.fillStyle="lightgray";const m=ctx.measureText(answer);const x=(canvas.width-m.width)/2;const y=(canvas.height+m.actualBoundingBoxAscent)/2;ctx.fillText(answer,x,y);}}
 function respeak(){speak(answer.toLowerCase());}
 function nextProblem(){hideAnswer();answer=alphabet[getRandomInt(0,alphabet.length)];if(document.getElementById("grade").selectedIndex==1){answer=answer.toLowerCase();}
 pad.clear();const tehon=document.getElementById("tehon");tehon.getContext("2d").clearRect(0,0,tehon.width,tehon.height);speak(answer.toLowerCase());}

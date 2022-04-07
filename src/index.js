@@ -129,7 +129,7 @@ function showAnswer() {
     ctx.fillStyle = "lightgray";
     const m = ctx.measureText(answer);
     const x = (canvas.width - m.width) / 2;
-    const y = canvas.height / 2 + m.actualBoundingBoxAscent / 2;
+    const y = (canvas.height + m.actualBoundingBoxAscent) / 2;
     ctx.fillText(answer, x, y);
   }
 }
