@@ -1,10 +1,11 @@
-var CACHE_NAME = '2022-04-27 08:35';
+var CACHE_NAME = '2022-05-01 08:30';
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/kohacu.webp",
   "/tegaki-abc/index.js",
   "/tegaki-abc/model/model.json",
   "/tegaki-abc/model/group1-shard1of1.bin",
+  "/tegaki-abc/worker.js",
   "/tegaki-abc/mp3/incorrect1.mp3",
   "/tegaki-abc/mp3/end.mp3",
   "/tegaki-abc/mp3/cat.mp3",
