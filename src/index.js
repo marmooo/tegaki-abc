@@ -30,6 +30,25 @@ function toggleDarkMode() {
     localStorage.setItem("darkMode", 1);
     document.documentElement.dataset.theme = "dark";
   }
+  if (localStorage.getItem("furigana") == 1) {
+    const obj = document.getElementById("addFurigana");
+    addFurigana(obj);
+    obj.setAttribute("data-done", true);
+  }
+}
+
+function addFurigana() {
+  const obj = document.getElementById("addFurigana");
+  if (obj.getAttribute("data-done")) {
+    localStorage.setItem("furigana", 0);
+    location.reload();
+  } else {
+    import("https://marmooo.github.io/yomico/yomico.min.js").then((module) => {
+      module.yomico("index.yomi");
+    });
+    localStorage.setItem("furigana", 1);
+    obj.setAttribute("data-done", true);
+  }
 }
 
 function playAudio(audioBuffer, volume) {
@@ -337,6 +356,7 @@ worker.addEventListener("message", (e) => {
 });
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
+document.getElementById("addFurigana").onclick = addFurigana;
 document.getElementById("restartButton").onclick = countdown;
 document.getElementById("startButton").onclick = countdown;
 document.getElementById("showAnswer").onclick = showAnswer;

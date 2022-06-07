@@ -1,7 +1,8 @@
-var CACHE_NAME = "2022-06-08 00:10";
+var CACHE_NAME = "2022-06-08 00:25";
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/index.js",
+  "/tegaki-abc/index.yomi",
   "/tegaki-abc/worker.js",
   "/tegaki-abc/model/model.json",
   "/tegaki-abc/model/group1-shard1of1.bin",
@@ -11,6 +12,7 @@ var urlsToCache = [
   "/tegaki-abc/mp3/correct3.mp3",
   "/tegaki-abc/kohacu.webp",
   "/tegaki-abc/favicon/favicon.svg",
+  "https://marmooo.github.io/yomico/yomico.min.js",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
   "https://cdn.jsdelivr.net/npm/signature_pad@4.0.4/dist/signature_pad.umd.min.js",
   "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.17.0/dist/tf.min.js",
