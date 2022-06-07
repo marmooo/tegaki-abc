@@ -1,7 +1,7 @@
-let endAudio, errorAudio, correctAudio;
-loadAudios();
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContext();
+const playPanel = document.getElementById("playPanel");
+const countPanel = document.getElementById("countPanel");
+const scorePanel = document.getElementById("scorePanel");
+const gameTime = 120;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let firstRun = true;
 const canvasCache = document.createElement("canvas").getContext("2d");
@@ -9,6 +9,11 @@ let answer = "Tegaki ABC";
 let correctCount = 0;
 let catCounter = 0;
 let englishVoices = [];
+let endAudio, errorAudio, correctAudio;
+loadVoices();
+loadAudios();
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
 loadConfig();
 
 function loadConfig() {
@@ -77,13 +82,13 @@ function loadAudios() {
 
 function loadVoices() {
   // https://stackoverflow.com/questions/21513706/
-  const allVoicesObtained = new Promise(function (resolve) {
+  const allVoicesObtained = new Promise((resolve) => {
     let voices = speechSynthesis.getVoices();
     if (voices.length !== 0) {
       resolve(voices);
     } else {
       let supported = false;
-      speechSynthesis.addEventListener("voiceschanged", function () {
+      speechSynthesis.addEventListener("voiceschanged", () => {
         supported = true;
         voices = speechSynthesis.getVoices();
         resolve(voices);
@@ -99,7 +104,6 @@ function loadVoices() {
     englishVoices = voices.filter((voice) => voice.lang == "en-US");
   });
 }
-loadVoices();
 
 function speak(text) {
   speechSynthesis.cancel();
@@ -232,17 +236,17 @@ function catWalk(freq, catCanvas) {
   const size = 128;
   canvas.style.top = getRandomInt(0, height - size) + "px";
   canvas.style.left = width - size + "px";
-  canvas.addEventListener("click", function () {
+  canvas.addEventListener("click", () => {
     speak(alphabet[catCounter].toLowerCase());
     if (catCounter >= alphabet.length - 1) {
       catCounter = 0;
     } else {
       catCounter += 1;
     }
-    this.remove();
+    canvas.remove();
   }, { once: true });
   area.appendChild(canvas);
-  const timer = setInterval(function () {
+  const timer = setInterval(() => {
     const x = parseInt(canvas.style.left) - 1;
     if (x > -size) {
       canvas.style.left = x + "px";
@@ -254,7 +258,7 @@ function catWalk(freq, catCanvas) {
 }
 
 function catsWalk(catCanvas) {
-  setInterval(function () {
+  setInterval(() => {
     if (Math.random() > 0.995) {
       catWalk(getRandomInt(5, 20), catCanvas);
     }
@@ -265,12 +269,11 @@ let gameTimer;
 function startGameTimer() {
   clearInterval(gameTimer);
   const timeNode = document.getElementById("time");
-  timeNode.textContent = "120秒 / 120秒";
-  gameTimer = setInterval(function () {
-    const arr = timeNode.textContent.split("秒 /");
-    const t = parseInt(arr[0]);
+  initTime();
+  gameTimer = setInterval(() => {
+    const t = parseInt(timeNode.textContent);
     if (t > 0) {
-      timeNode.textContent = (t - 1) + "秒 /" + arr[1];
+      timeNode.textContent = t - 1;
     } else {
       clearInterval(gameTimer);
       playAudio(endAudio);
@@ -283,12 +286,12 @@ let countdownTimer;
 function countdown() {
   firstRun = false;
   clearTimeout(countdownTimer);
-  gameStart.classList.remove("d-none");
+  countPanel.classList.remove("d-none");
   playPanel.classList.add("d-none");
   scorePanel.classList.add("d-none");
   const counter = document.getElementById("counter");
   counter.textContent = 3;
-  countdownTimer = setInterval(function () {
+  countdownTimer = setInterval(() => {
     const colors = ["skyblue", "greenyellow", "violet", "tomato"];
     if (parseInt(counter.textContent) > 1) {
       const t = parseInt(counter.textContent) - 1;
@@ -297,7 +300,7 @@ function countdown() {
     } else {
       firstRun = false;
       clearTimeout(countdownTimer);
-      gameStart.classList.add("d-none");
+      countPanel.classList.add("d-none");
       playPanel.classList.remove("d-none");
       document.getElementById("score").textContent = 0;
       correctCount = 0;
@@ -305,6 +308,10 @@ function countdown() {
       startGameTimer();
     }
   }, 1000);
+}
+
+function initTime() {
+  document.getElementById("time").textContent = gameTime;
 }
 
 function scoring() {
@@ -319,7 +326,7 @@ document.getElementById("eraser").onclick = () => {
 };
 
 const worker = new Worker("worker.js");
-worker.addEventListener("message", function (e) {
+worker.addEventListener("message", (e) => {
   const reply = e.data.result[0];
   document.getElementById("reply").textContent = reply;
   if (reply == answer) {

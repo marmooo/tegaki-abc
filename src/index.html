@@ -60,9 +60,9 @@
             Tegaki ABC
           </a>
           <div class="navbar-nav">
-            <select id="grade" class="form-select form-select-sm" aria-label="種類">
-              <option selected>ABC</option>
-              <option>abc</option>
+            <select title="種類" id="grade" class="form-select form-select-sm">
+              <option class="notranslate" selected>ABC</option>
+              <option class="notranslate">abc</option>
             </select>
             <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
@@ -80,45 +80,29 @@
         <pre><code>sudo apt install speech-dispatcher
 sudo apt install festival speech-dispatcher-festival</code></pre>
       </div>
-      <div id="gameStart" class="text-center d-none">
-        <div id="countdown">
-          <div id="counter">3</div>
-          <img class="cat" src="kohacu.webp" width="128" height="128" alt="">
-        </div>
-      </div>
-      <div id="scorePanel" class="text-center pb-3 d-none">
-        <h3 class="pt-3">
-          <ruby>結果<rp>(</rp><rt>けっか</rt><rp>)</rp></ruby>
-        </h3>
-        <img class="cat" src="kohacu.webp" width="128" height="128" alt="">
-        <p>クリアしたのは・・・</p>
-        <div class="h2 pb-3">
-          <span id="score" class="h1">0</span>
-          <ruby>問<rp>(</rp><rt>もん</rt><rp>)</rp></ruby>！
-        </div>
-        <button id="restartButton" type="button" class="btn btn-primary btn-lg">リスタート</button>
-      </div>
       <div id="playPanel">
         <div class="row">
-          <div class="col-sm">
-            <p>ABC の<ruby>発音<rt>はつおん</rt></ruby>を<ruby>手書<rt>てが</rt></ruby>きで<ruby>答<rt>こた</rt></ruby>えるゲームです。
+          <div class="col-md">
+            <p>ABC の発音を手書きで答えるゲームです。
             </p>
           </div>
-          <div class="col-sm">
-            <div class="alert alert-info text-center">
-              <div class="h5">
-                <label><ruby>時間<rp>(</rp><rt>じかん</rt><rp>)</rp></ruby>:</label>
-                <span id="time" class="ms-1">120秒 / 120秒</span>
+          <div class="col-md text-center">
+            <div class="alert alert-info">
+              <div class="d-flex flex-wrap justify-content-center">
+                <div class="h5 text-nowrap notranslate">
+                  <span id="time">120</span>
+                  <span> / 120 sec</span>
+                </div>
               </div>
-              <div>
-                <button id="startButton" class="btn btn-primary btn-lg m-1">スタート</button>
-                <button id="showAnswer" class="btn btn-secondary btn-lg m-1">こたえ</button>
+              <div class="mt-2">
+                <button id="startButton" class="btn btn-lg btn-primary">スタート</button>
+                <button id="showAnswer" class="btn btn-lg btn-secondary">こたえ</button>
               </div>
             </div>
           </div>
         </div>
         <div class="text-center pt-3">
-          <div class="h1">解答: <span id="reply"></span></div>
+          <div class="h1">解答: <span id="reply" class="notranslate"></span></div>
           <div id="tegakiPanel">
             <canvas id="tehon" width="280" height="280"></canvas>
             <canvas id="tegaki" width="280" height="280"></canvas>
@@ -132,9 +116,24 @@ sudo apt install festival speech-dispatcher-festival</code></pre>
             </button>
           </div>
         </div>
-        <div id="catsWalk" class="pt-4">
+        <div id="catsWalk" class="pt-4 notranslate">
           <img id="kohacu" class="cat" src="kohacu.webp" width="128" height="128" alt="kohacu">
         </div>
+      </div>
+      <div id="countPanel" class="text-center d-none">
+        <div id="countdown">
+          <div id="counter">3</div>
+          <img class="cat" src="kohacu.webp" width="128" height="128" alt="">
+        </div>
+      </div>
+      <div id="scorePanel" class="text-center pb-3 d-none">
+        <h3 class="pt-3">スコア</h3>
+        <img class="cat" src="kohacu.webp" width="128" height="128" alt="">
+        <p>クリアしたのは・・・</p>
+        <div class="h2 pb-3 notranslate">
+          <span id="score" class="h1">0</span>
+        </div>
+        <button id="restartButton" type="button" class="btn btn-primary btn-lg">リスタート</button>
       </div>
     </main>
     <footer class="pt-4 alert text-center">
