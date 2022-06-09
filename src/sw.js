@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-06-08 00:25";
+var CACHE_NAME = "2022-06-10 00:10";
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/index.js",
@@ -11,6 +11,8 @@ var urlsToCache = [
   "/tegaki-abc/mp3/cat.mp3",
   "/tegaki-abc/mp3/correct3.mp3",
   "/tegaki-abc/kohacu.webp",
+  "/tegaki-abc/eraser.svg",
+  "/tegaki-abc/refresh.svg",
   "/tegaki-abc/favicon/favicon.svg",
   "https://marmooo.github.io/yomico/yomico.min.js",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
