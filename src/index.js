@@ -343,6 +343,7 @@ function scoring() {
 const pad = initSignaturePad(document.getElementById("tegaki"));
 document.getElementById("eraser").onclick = () => {
   pad.clear();
+  document.getElementById("reply").textContent = "";
 };
 
 const worker = new Worker("worker.js");
