@@ -1,4 +1,4 @@
-var CACHE_NAME = "2023-02-23 11:10";
+var CACHE_NAME = "2023-04-07 09:25";
 var urlsToCache = [
   "/tegaki-abc/",
   "/tegaki-abc/index.js",
@@ -6,7 +6,6 @@ var urlsToCache = [
   "/tegaki-abc/worker.js",
   "/tegaki-abc/model/model.json",
   "/tegaki-abc/model/group1-shard1of1.bin",
-  "/tegaki-abc/mp3/incorrect1.mp3",
   "/tegaki-abc/mp3/end.mp3",
   "/tegaki-abc/mp3/cat.mp3",
   "/tegaki-abc/mp3/correct3.mp3",
