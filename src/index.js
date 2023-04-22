@@ -4,7 +4,8 @@ const scorePanel = document.getElementById("scorePanel");
 const gameTime = 120;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let firstRun = true;
-const canvasCache = document.createElement("canvas").getContext("2d");
+const canvasCache = document.createElement("canvas")
+  .getContext("2d", { willReadFrequently: true });
 let answer = "Tegaki ABC";
 let correctCount = 0;
 let catCounter = 0;
