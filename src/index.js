@@ -368,7 +368,7 @@ worker.addEventListener("message", (e) => {
   if (reply == answer) {
     correctCount += 1;
     playAudio("correct");
-    nextProblem();
+    setTimeout(nextProblem, 300);
   }
 });
 
