@@ -4,9 +4,9 @@ Tegaki ABC</a><div class=navbar-nav><select title=種類 id=grade class="form-se
 <button title=ふりがな id=addFurigana class="fs-4 btn p-0 ms-1" type=button>👧</button>
 <button title=ダークモード切替 id=toggleDarkMode class="fs-4 btn p-0 ms-1" type=button>🌓</button></div></div></nav></header><main class=container><noscript><div class="alert alert-warning">JavaScript を ON にしてください</div></noscript><div id=noTTS class="alert alert-warning d-none"><p>お使いのブラウザは音声読み上げに対応していません。
 Firefox for Linux は発話モジュールをインストールしてください。例:<pre><code>sudo apt install speech-dispatcher
-sudo apt install festival speech-dispatcher-festival</code></pre></div><div id=playPanel><div class=row><div class=col-md><p>ABC の発音を手書きで答えるゲームです。</div><div class="col-md text-center"><div class="alert alert-info"><div class="d-flex flex-wrap justify-content-center"><div class="h5 text-nowrap notranslate"><span id=time>120</span>
+sudo apt install festival speech-dispatcher-festival</code></pre></div><div id=infoPanel><div class=row><div class=col-md><p>ABC の発音を手書きで答えるゲームです。</div><div class="col-md text-center"><div class="alert alert-info"><div class="d-flex flex-wrap justify-content-center"><div class="h5 text-nowrap notranslate"><span id=time>120</span>
 <span>/ 120 sec</span></div></div><div class=mt-2><button id=startButton class="btn btn-lg btn-primary" type=button>スタート</button>
-<button id=showAnswer class="btn btn-lg btn-secondary" type=button>こたえ</button></div></div></div></div><div class="text-center pt-3"><div class=h1>解答: <span id=reply class=notranslate></span></div><div id=tegakiPanel><canvas id=tehon width=280 height=280></canvas>
+<button id=showAnswer class="btn btn-lg btn-secondary" type=button>こたえ</button></div></div></div></div></div><div id=playPanel><div class="text-center pt-3"><div class=h1>解答: <span id=reply class=notranslate></span></div><div id=tegakiPanel><canvas id=tehon width=280 height=280></canvas>
 <canvas id=tegaki width=280 height=280></canvas></div><div><button title=もう一度聴く class="btn p-0" type=button>
 <img alt=もう一度聴く id=respeak src=refresh.svg width=64 height=64></button>
 <button title=書き直し class="btn p-0 ms-1" type=button>
