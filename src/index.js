@@ -370,7 +370,7 @@ worker.addEventListener("message", (e) => {
   document.getElementById("reply").textContent = reply;
   if (reply == answer) {
     correctCount += 1;
-    playAudio("correct");
+    playAudio("correct", 0.3);
     setTimeout(nextProblem, 300);
   }
 });
