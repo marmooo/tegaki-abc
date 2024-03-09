@@ -12,7 +12,7 @@ let correctCount = 0;
 let catCounter = 0;
 let englishVoices = [];
 loadVoices();
-const audioContext = new AudioContext();
+const audioContext = new globalThis.AudioContext();
 const audioBufferCache = {};
 loadAudio("end", "mp3/end.mp3");
 loadAudio("error", "mp3/cat.mp3");
@@ -142,7 +142,7 @@ function loadVoices() {
 
 function speak(text) {
   speechSynthesis.cancel();
-  const msg = new SpeechSynthesisUtterance(text);
+  const msg = new globalThis.SpeechSynthesisUtterance(text);
   msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
   msg.lang = "en-US";
   speechSynthesis.speak(msg);
@@ -234,7 +234,7 @@ function catNyan() {
 
 function loadImage(src) {
   return new Promise((resolve, reject) => {
-    const img = new Image();
+    const img = new globalThis.Image();
     img.onload = () => resolve(img);
     img.onerror = (e) => reject(e);
     img.src = src;
