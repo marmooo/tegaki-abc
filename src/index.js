@@ -10,7 +10,9 @@ let firstRun = true;
 const canvasCache = document.createElement("canvas")
   .getContext("2d", { willReadFrequently: true });
 let answer = "Tegaki ABC";
+let hinted = false;
 let correctCount = 0;
+let totalCount = 0;
 let catCounter = 0;
 let englishVoices = [];
 loadVoices();
@@ -162,6 +164,7 @@ function hideAnswer() {
 }
 
 function showAnswer() {
+  hinted = true;
   speak(answer.toLowerCase());
   if (!firstRun) {
     const canvas = document.getElementById("tehon");
@@ -180,6 +183,7 @@ function respeak() {
 }
 
 function nextProblem() {
+  hinted = false;
   hideAnswer();
   answer = alphabet[getRandomInt(0, alphabet.length)];
   if (document.getElementById("grade").selectedIndex == 1) {
@@ -343,8 +347,7 @@ function countdown() {
       countPanel.classList.add("d-none");
       infoPanel.classList.remove("d-none");
       playPanel.classList.remove("d-none");
-      document.getElementById("score").textContent = 0;
-      correctCount = 0;
+      correctCount = totalCount = 0;
       nextProblem();
       startGameTimer();
     }
@@ -358,7 +361,8 @@ function initTime() {
 function scoring() {
   playPanel.classList.add("d-none");
   scorePanel.classList.remove("d-none");
-  document.getElementById("score").textContent = correctCount;
+  document.getElementById("score").textContent =
+    `${correctCount} / ${totalCount}`;
 }
 
 const pad = initSignaturePad(document.getElementById("tegaki"));
@@ -372,7 +376,9 @@ worker.addEventListener("message", (e) => {
   const reply = e.data.result[0];
   document.getElementById("reply").textContent = reply;
   if (reply == answer) {
-    correctCount += 1;
+    if (!hinted) correctCount += 1;
+    totalCount += 1;
+    hinted = false;
     playAudio("correct", 0.3);
     setTimeout(nextProblem, 300);
   }
