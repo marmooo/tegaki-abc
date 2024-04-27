@@ -232,7 +232,7 @@ function getImageData(drawElement) {
 
 function predict(canvas) {
   const imageData = getImageData(canvas);
-  worker.postMessage({ imageData: imageData });
+  worker.postMessage({ imageData });
 }
 
 function catNyan() {
@@ -327,7 +327,7 @@ function startGameTimer() {
 
 let countdownTimer;
 function countdown() {
-  if (firstRun) predict(pad.canvas);
+  firstRun = false;
   clearTimeout(countdownTimer);
   countPanel.classList.remove("d-none");
   infoPanel.classList.add("d-none");
@@ -372,18 +372,16 @@ document.getElementById("eraser").onclick = () => {
 
 const worker = new Worker("worker.js");
 worker.addEventListener("message", (event) => {
-  if (firstRun) {
-    firstRun = false;
-  } else {
-    const reply = event.data.result[0];
-    document.getElementById("reply").textContent = reply;
-    if (reply == answer) {
-      if (!hinted) correctCount += 1;
-      totalCount += 1;
-      hinted = false;
-      playAudio("correct", 0.3);
-      setTimeout(nextProblem, 300);
-    }
+  const data = event.data;
+  if (pad.toData().length == 0) return;
+  const reply = data.result[0];
+  document.getElementById("reply").textContent = reply;
+  if (reply == answer) {
+    if (!hinted) correctCount += 1;
+    totalCount += 1;
+    hinted = false;
+    playAudio("correct", 0.3);
+    setTimeout(nextProblem, 300);
   }
 });
 
@@ -394,6 +392,9 @@ document.getElementById("startButton").onclick = countdown;
 document.getElementById("showAnswer").onclick = showAnswer;
 document.getElementById("respeak").onclick = respeak;
 document.getElementById("kohacu").onclick = catNyan;
+document.addEventListener("pointerdown", () => {
+  predict(pad.canvas);
+}, { once: true });
 document.addEventListener("click", unlockAudio, {
   once: true,
   useCapture: true,
