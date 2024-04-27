@@ -327,7 +327,7 @@ function startGameTimer() {
 
 let countdownTimer;
 function countdown() {
-  firstRun = false;
+  if (firstRun) predict(pad.canvas);
   clearTimeout(countdownTimer);
   countPanel.classList.remove("d-none");
   infoPanel.classList.add("d-none");
@@ -342,7 +342,6 @@ function countdown() {
       counter.style.backgroundColor = colors[t];
       counter.textContent = t;
     } else {
-      firstRun = false;
       clearTimeout(countdownTimer);
       countPanel.classList.add("d-none");
       infoPanel.classList.remove("d-none");
@@ -372,15 +371,19 @@ document.getElementById("eraser").onclick = () => {
 };
 
 const worker = new Worker("worker.js");
-worker.addEventListener("message", (e) => {
-  const reply = e.data.result[0];
-  document.getElementById("reply").textContent = reply;
-  if (reply == answer) {
-    if (!hinted) correctCount += 1;
-    totalCount += 1;
-    hinted = false;
-    playAudio("correct", 0.3);
-    setTimeout(nextProblem, 300);
+worker.addEventListener("message", (event) => {
+  if (firstRun) {
+    firstRun = false;
+  } else {
+    const reply = event.data.result[0];
+    document.getElementById("reply").textContent = reply;
+    if (reply == answer) {
+      if (!hinted) correctCount += 1;
+      totalCount += 1;
+      hinted = false;
+      playAudio("correct", 0.3);
+      setTimeout(nextProblem, 300);
+    }
   }
 });
 
