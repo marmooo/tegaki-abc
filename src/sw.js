@@ -1,7 +1,6 @@
-const cacheName = "2026-06-17 00:00";
+const cacheName = "2026-06-18 00:00";
 const urlsToCache = [
   "/tegaki-abc/index.js",
-  "/tegaki-abc/index.yomi",
   "/tegaki-abc/worker.js",
   "/tegaki-abc/model/model.json",
   "/tegaki-abc/model/group1-shard1of1.bin",
